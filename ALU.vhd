@@ -1,0 +1,30 @@
+library IEEE;
+USE ieee.std_logic_1164.all;
+ENTITY ALU IS 
+	PORT(
+		A_a,B_b : IN STD_LOGIC_VECTOR(15 DOWNTO 0);
+		sel : IN STD_LOGIC_VECTOR(2 DOWNTO 0);
+		S_s :OUT STD_LOGIC_VECTOR(15 DOWNTO 0)
+	);
+	END ALU;
+	
+ARCHITECTURE ALU_arch OF ALU IS
+	COMPONENT FA_Nbits IS
+		GENERIC(N: integer := 16);
+		PORT(
+			a,b:IN STD_LOGIC_VECTOR(N-1 DOWNTO 0);
+			cin: IN STD_LOGIC;
+			s:OUT STD_LOGIC_VECTOR(N-1 DOWNTO 0);
+			cout:OUT STD_LOGIC
+		);
+		END COMPONENT;
+		
+		SIGNAL inter1:STD_LOGIC_VECTOR(15 DOWNTO 0);
+		SIGNAL inter_cout:STD_LOGIC;
+		
+		BEGIN
+			u0:FA_Nbits PORT MAP(A_a,B_b,'0',inter1,inter_cout);
+			S_s <= A_a WHEN sel="000" ELSE
+					B_b WHEN sel="001" ELSE
+					inter1 WHEN sel="010";
+		END ARCHITECTURE;

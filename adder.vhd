@@ -1,0 +1,30 @@
+Library IEEE; --Library
+USE ieee.std_logic_1164.all;
+ENTITY Decod7Seg IS -- définition de l'entité, 8 bit en E/S
+PORT (
+c:IN STD_LOGIC_VECTOR(3 DOWNTO 0);
+m0:OUT STD_LOGIC_VECTOR(6 DOWNTO 0)
+);
+END Decod7Seg;
+
+ARCHITECTURE Decod7Seg_arch OF Decod7Seg IS
+	-- no component
+BEGIN --0 = ACTIVE 1 = INACTIF
+	m0 <= "1000000" WHEN c="0000" ELSE --1:6 2:5 3:4 ....
+			"1111001" WHEN c="0001" ELSE
+			"0100100" WHEN c="0010" ELSE
+			"0110000" WHEN c="0011" ELSE
+			"0011001" WHEN c="0100" ELSE
+			"0010010" WHEN c="0101" ELSE
+			"0000010" WHEN c="0110" ELSE --6
+			"1111000" WHEN c="0111" ELSE
+			"0000000" WHEN c="1000" ELSE
+			"0010000" WHEN c="1001" ELSE
+			"0001000" WHEN c="1010" ELSE
+			"0000011" WHEN c="1011" ELSE
+			"1000110" WHEN c="1100" ELSE
+			"0100001" WHEN c="1101" ELSE
+			"0000110" WHEN c="1110" ELSE
+			"0001110" WHEN c="1111"; -- double quote POUR VECTEUR sinon simple quote
+	
+END Decod7Seg_arch;
